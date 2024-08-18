@@ -1,7 +1,7 @@
 import UserDetails from "./UserDetails";
 
-const UserInfo = ({ userData }) => {
-  return <userDetails userData={userData} />;
-};
+function UserInfo() {
+  return <UserDetails />;
+}
 
 export default UserInfo;
