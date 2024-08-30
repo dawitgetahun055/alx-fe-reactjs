@@ -1,5 +1,5 @@
 import useRecipeStore from "./recipeStore";
-import FavBtn from "../FavBtn";
+import FavBtn from "./FavBtn";
 
 const FavoritesList = () => {
   const favorites = useRecipeStore((state) =>
