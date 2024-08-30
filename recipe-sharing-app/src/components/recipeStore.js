@@ -32,7 +32,6 @@ const useRecipeStore = create((set) => ({
     }));
   },
 
-
   // Set the recipes list (e.g., from an API)
   setRecipes: (recipes) => set({ recipes }),
 }));

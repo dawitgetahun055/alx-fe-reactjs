@@ -1,5 +1,6 @@
 import useRecipeStore from "./recipeStore";
 import FavBtn from "./FavBtn";
+import { Link } from "react-router-dom";
 
 const FavoritesList = () => {
   const favorites = useRecipeStore((state) =>
