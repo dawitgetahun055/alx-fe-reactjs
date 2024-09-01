@@ -1,14 +1,15 @@
-// src/App.jsx
-import ProtectedRoute from "./components/ProtectedRoute";
-import { Route, Router, Link, Routes, Home } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Home from "./components/Home";
 import Profile from "./components/Profile";
 import BlogPost from "./components/BlogPost";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const isAuthenticated = false; // This should be dynamic based on real authentication logic
 
   return (
-    <Router>
+    <BrowserRouter>
       <nav>
         <Link to="/">Home</Link>
         <Link to="/profile">Profile</Link>
@@ -25,7 +26,7 @@ function App() {
         />
         <Route path="/blog/:postId" element={<BlogPost />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
