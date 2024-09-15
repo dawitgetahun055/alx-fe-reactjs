@@ -1,36 +1,39 @@
-import React from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React, { useState } from "react";
 
 const AddRecipeForm = () => {
-  // Formik logic for handling the form
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      ingredients: "",
-      preparationSteps: "",
-    },
-    validationSchema: Yup.object({
-      title: Yup.string().required("Recipe title is required"),
-      ingredients: Yup.string().required("Please provide ingredients"),
-      preparationSteps: Yup.string().required(
-        "Please provide preparation steps"
-      ),
-    }),
-    onSubmit: (values, { setSubmitting, resetForm }) => {
-      console.log("Form submitted:", values);
-      // Simulate form submission
-      setSubmitting(true);
-      setTimeout(() => {
-        resetForm();
-        setSubmitting(false);
-      }, 500);
-    },
-  });
+  // State to manage form inputs
+  const [title, setTitle] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [preparationSteps, setPreparationSteps] = useState("");
+  const [errors, setErrors] = useState({});
+
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Simple validation
+    const validationErrors = {};
+    if (!title) validationErrors.title = "Recipe title is required";
+    if (!ingredients)
+      validationErrors.ingredients = "Please provide ingredients";
+    if (!preparationSteps)
+      validationErrors.preparationSteps = "Please provide preparation steps";
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      console.log("Form submitted:", { title, ingredients, preparationSteps });
+      // Reset form fields
+      setTitle("");
+      setIngredients("");
+      setPreparationSteps("");
+      setErrors({});
+    }
+  };
 
   return (
     <form
-      onSubmit={formik.handleSubmit}
+      onSubmit={handleSubmit}
       className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg"
     >
       <h2 className="text-2xl font-bold mb-4">Add a New Recipe</h2>
@@ -46,17 +49,14 @@ const AddRecipeForm = () => {
           id="title"
           name="title"
           type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.title}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${
-            formik.touched.title && formik.errors.title ? "border-red-500" : ""
+            errors.title ? "border-red-500" : ""
           }`}
           placeholder="Enter recipe title"
         />
-        {formik.touched.title && formik.errors.title ? (
-          <p className="text-red-500 text-sm">{formik.errors.title}</p>
-        ) : null}
+        {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
       </div>
 
       <div className="mb-4">
@@ -69,19 +69,16 @@ const AddRecipeForm = () => {
         <textarea
           id="ingredients"
           name="ingredients"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.ingredients}
+          value={ingredients}
+          onChange={(e) => setIngredients(e.target.value)}
           className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${
-            formik.touched.ingredients && formik.errors.ingredients
-              ? "border-red-500"
-              : ""
+            errors.ingredients ? "border-red-500" : ""
           }`}
           placeholder="Enter ingredients, separated by commas"
         ></textarea>
-        {formik.touched.ingredients && formik.errors.ingredients ? (
-          <p className="text-red-500 text-sm">{formik.errors.ingredients}</p>
-        ) : null}
+        {errors.ingredients && (
+          <p className="text-red-500 text-sm">{errors.ingredients}</p>
+        )}
       </div>
 
       <div className="mb-4">
@@ -94,27 +91,21 @@ const AddRecipeForm = () => {
         <textarea
           id="preparationSteps"
           name="preparationSteps"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.preparationSteps}
+          value={preparationSteps}
+          onChange={(e) => setPreparationSteps(e.target.value)}
           className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${
-            formik.touched.preparationSteps && formik.errors.preparationSteps
-              ? "border-red-500"
-              : ""
+            errors.preparationSteps ? "border-red-500" : ""
           }`}
           placeholder="Enter preparation steps"
         ></textarea>
-        {formik.touched.preparationSteps && formik.errors.preparationSteps ? (
-          <p className="text-red-500 text-sm">
-            {formik.errors.preparationSteps}
-          </p>
-        ) : null}
+        {errors.preparationSteps && (
+          <p className="text-red-500 text-sm">{errors.preparationSteps}</p>
+        )}
       </div>
 
       <button
         type="submit"
         className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
-        disabled={formik.isSubmitting}
       >
         Submit Recipe
       </button>
