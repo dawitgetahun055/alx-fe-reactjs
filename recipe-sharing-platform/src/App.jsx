@@ -1,5 +1,11 @@
+import Homepage from "./components/Homepage";
+
 const App = () => {
-  return <div className="text-blue-500">Hey there</div>;
+  return (
+    <div>
+      <Homepage />
+    </div>
+  );
 };
 
 export default App;
