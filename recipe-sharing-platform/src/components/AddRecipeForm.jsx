@@ -7,17 +7,23 @@ const AddRecipeForm = () => {
   const [preparationSteps, setPreparationSteps] = useState("");
   const [errors, setErrors] = useState({});
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Simple validation
+  // Custom validate function to check form fields
+  const validate = () => {
     const validationErrors = {};
     if (!title) validationErrors.title = "Recipe title is required";
     if (!ingredients)
       validationErrors.ingredients = "Please provide ingredients";
     if (!preparationSteps)
       validationErrors.preparationSteps = "Please provide preparation steps";
+
+    return validationErrors;
+  };
+
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
