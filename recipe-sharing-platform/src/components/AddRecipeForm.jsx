@@ -40,7 +40,7 @@ const AddRecipeForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg"
+      className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg md:max-w-xl"
     >
       <h2 className="text-2xl font-bold mb-4">Add a New Recipe</h2>
 
@@ -57,7 +57,7 @@ const AddRecipeForm = () => {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none md:px-4 ${
             errors.title ? "border-red-500" : ""
           }`}
           placeholder="Enter recipe title"
@@ -77,7 +77,7 @@ const AddRecipeForm = () => {
           name="ingredients"
           value={ingredients}
           onChange={(e) => setIngredients(e.target.value)}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none md:px-4 ${
             errors.ingredients ? "border-red-500" : ""
           }`}
           placeholder="Enter ingredients, separated by commas"
@@ -99,7 +99,7 @@ const AddRecipeForm = () => {
           name="preparationSteps"
           value={preparationSteps}
           onChange={(e) => setPreparationSteps(e.target.value)}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none md:px-4 ${
             errors.preparationSteps ? "border-red-500" : ""
           }`}
           placeholder="Enter preparation steps"
@@ -111,7 +111,7 @@ const AddRecipeForm = () => {
 
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+        className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 md:w-auto md:px-6"
       >
         Submit Recipe
       </button>
