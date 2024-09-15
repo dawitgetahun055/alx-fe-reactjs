@@ -24,7 +24,7 @@ const RecipeDetail = () => {
       <img
         src={recipe.image}
         alt={recipe.title}
-        className="w-full h-64 object-cover mb-4"
+        className="w-full h-64 object-cover mb-4 shadow"
       />
       <p className="text-gray-700">{recipe.summary}</p>
       <h2 className="text-2xl font-bold mt-6">Ingredients</h2>
