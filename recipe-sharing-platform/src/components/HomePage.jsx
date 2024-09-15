@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link
 import recipeData from '../data.json'; // Assuming the mock data is here
 
