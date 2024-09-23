@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { searchUsers } from "../services/githubService";
 
 const Search = () => {
