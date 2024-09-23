@@ -9,19 +9,22 @@ const GITHUB_API_KEY = import.meta.env.VITE_GITHUB_API_KEY;
 // Function to search for users with advanced criteria
 export const searchUsers = async ({ username, location, minRepos }) => {
   try {
-    // Construct the query with advanced search criteria
-    let query = `q=${username}`;
+    // Construct the query string with advanced search criteria
+    let query = `q=${encodeURIComponent(username)}`;
 
     if (location) {
-      query += `+location:${location}`;
+      query += `+location:${encodeURIComponent(location)}`;
     }
 
     if (minRepos) {
-      query += `+repos:>=${minRepos}`;
+      query += `+repos:>=${encodeURIComponent(minRepos)}`;
     }
 
+    // Construct the full API URL
+    const apiUrl = `${GITHUB_API_BASE_URL}?${query}`;
+
     // Make a GET request to the GitHub Search API
-    const response = await axios.get(`${GITHUB_API_BASE_URL}?${query}`, {
+    const response = await axios.get(apiUrl, {
       headers: {
         Authorization: `token ${GITHUB_API_KEY}`, // Include the token for authentication
       },
