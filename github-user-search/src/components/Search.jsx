@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { searchUsers } from "../services/githubService"; // Ensure this path is correct
+import { searchUsers } from "../services/githubAPI";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useState({
@@ -8,16 +8,26 @@ const Search = () => {
     minRepos: "",
   });
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission (page reload)
+    setLoading(true); // Set loading state
+    setError(null); // Reset error state
 
     try {
       const users = await searchUsers(searchParams);
       setResults(users);
+      if (users.length === 0) {
+        setError("Looks like we can't find the user");
+      }
     } catch (error) {
       console.error("Error during search:", error);
+      setError("An error occurred while fetching data.");
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -53,10 +63,22 @@ const Search = () => {
         <button type="submit">Search</button> {/* Submit button */}
       </form>
 
+      {/* Display loading state */}
+      {loading && <p>Loading...</p>}
+
+      {/* Display error message */}
+      {error && <p>{error}</p>}
+
       {/* Display search results */}
       <div>
         {results.map((user) => (
           <div key={user.id}>
+            <img
+              src={user.avatar_url}
+              alt={`${user.login}'s avatar`}
+              className="w-16 h-16"
+            />{" "}
+            {/* User avatar */}
             <h3>{user.login}</h3>
             <p>{user.location || "Location not available"}</p>
             <p>Repositories: {user.public_repos}</p>
