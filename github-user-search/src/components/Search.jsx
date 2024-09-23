@@ -23,7 +23,7 @@ const Search = () => {
 
       // Check if no users were found
       if (users.length === 0) {
-        setError("Looks like we can't find the user"); // Set error message if no users found
+        setError("Looks like we cant find the user"); // Set error message if no users found
       }
     } catch (error) {
       console.error("Error during search:", error);
