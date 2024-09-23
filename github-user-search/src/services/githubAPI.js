@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// GitHub API base URL
+// GitHub API base URL for searching users
 const GITHUB_API_BASE_URL = "https://api.github.com/search/users";
 
 // GitHub Personal Access Token from .env
