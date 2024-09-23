@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { searchUsers } from "../services/githubService";
+import { useState } from "react";
+import { searchUsers } from "../services/githubAPI";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useState({
