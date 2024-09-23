@@ -11,37 +11,31 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch user data based on search parameters
   const fetchUserData = async () => {
-    setLoading(true); // Set loading state
-    setError(null); // Reset error state
-
+    setLoading(true);
+    setError(null);
     try {
       const users = await searchUsers(searchParams);
       setResults(users);
-
-      // Check if no users were found
       if (users.length === 0) {
-        setError("Looks like we cant find the user");
+        setError("Looks like we can't find any users.");
       }
     } catch (error) {
       console.error("Error during search:", error);
       setError("An error occurred while fetching data.");
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
-    fetchUserData(); // Call the fetch function
+    e.preventDefault();
+    fetchUserData();
   };
 
   return (
-    <div>
-      {/* Search form */}
-      <form onSubmit={handleSubmit}>
+    <div className="p-4 max-w-2xl mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           placeholder="Username"
@@ -49,6 +43,7 @@ const Search = () => {
           onChange={(e) =>
             setSearchParams({ ...searchParams, username: e.target.value })
           }
+          className="border p-2 w-full rounded-md"
           required
         />
         <input
@@ -58,6 +53,7 @@ const Search = () => {
           onChange={(e) =>
             setSearchParams({ ...searchParams, location: e.target.value })
           }
+          className="border p-2 w-full rounded-md"
         />
         <input
           type="number"
@@ -66,31 +62,43 @@ const Search = () => {
           onChange={(e) =>
             setSearchParams({ ...searchParams, minRepos: e.target.value })
           }
+          className="border p-2 w-full rounded-md"
         />
-        <button type="submit">Search</button>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+        >
+          Search
+        </button>
       </form>
 
-      {/* Display loading state */}
-      {loading && <p>Loading...</p>}
+      {loading && <p className="mt-4">Loading...</p>}
+      {error && <p className="mt-4 text-red-500">{error}</p>}
 
-      {/* Display error message */}
-      {error && <p>{error}</p>}
-
-      {/* Display search results */}
-      <div>
+      <div className="mt-4 space-y-4">
         {results.map((user) => (
-          <div key={user.id}>
+          <div
+            key={user.id}
+            className="border p-4 rounded-md flex items-center space-x-4"
+          >
             <img
               src={user.avatar_url}
               alt={`${user.login}'s avatar`}
-              className="w-16 h-16"
+              className="w-16 h-16 rounded-full"
             />
-            <h3>{user.login}</h3>
-            <p>{user.location || "Location not available"}</p>
-            <p>Repositories: {user.public_repos}</p>
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-              View Profile
-            </a>
+            <div>
+              <h3 className="font-bold">{user.login}</h3>
+              <p>{user.location || "Location not available"}</p>
+              <p>Repositories: {user.public_repos}</p>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                View Profile
+              </a>
+            </div>
           </div>
         ))}
       </div>

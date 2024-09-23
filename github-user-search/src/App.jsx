@@ -1,4 +1,5 @@
 import Search from "./components/Search";
+import "index.css";
 
 const App = () => {
   return (
