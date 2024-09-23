@@ -11,9 +11,8 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission (page reload)
+  // Fetch user data based on search parameters
+  const fetchUserData = async () => {
     setLoading(true); // Set loading state
     setError(null); // Reset error state
 
@@ -23,7 +22,7 @@ const Search = () => {
 
       // Check if no users were found
       if (users.length === 0) {
-        setError("Looks like we cant find the user"); // Set error message if no users found
+        setError("Looks like we can't find the user.");
       }
     } catch (error) {
       console.error("Error during search:", error);
@@ -31,6 +30,12 @@ const Search = () => {
     } finally {
       setLoading(false); // Reset loading state
     }
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    fetchUserData(); // Call the fetch function
   };
 
   return (
@@ -62,7 +67,7 @@ const Search = () => {
             setSearchParams({ ...searchParams, minRepos: e.target.value })
           }
         />
-        <button type="submit">Search</button> {/* Submit button */}
+        <button type="submit">Search</button>
       </form>
 
       {/* Display loading state */}
@@ -70,11 +75,6 @@ const Search = () => {
 
       {/* Display error message */}
       {error && <p>{error}</p>}
-
-      {/* Check if results array is empty and not loading or showing error */}
-      {results.length === 0 && !loading && !error && (
-        <p>Looks like we can't find the user.</p>
-      )}
 
       {/* Display search results */}
       <div>
