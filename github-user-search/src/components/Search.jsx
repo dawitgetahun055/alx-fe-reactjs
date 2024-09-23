@@ -21,7 +21,7 @@ const Search = () => {
       const users = await searchUsers(searchParams);
       setResults(users);
       if (users.length === 0) {
-        setError("Looks like we can't find the user");
+        setError("Looks like we can't find the user"); // Set error message if no users found
       }
     } catch (error) {
       console.error("Error during search:", error);
@@ -68,6 +68,11 @@ const Search = () => {
 
       {/* Display error message */}
       {error && <p>{error}</p>}
+
+      {/* Check if results array is empty */}
+      {results.length === 0 && !loading && !error && (
+        <p>Looks like we can't find the user.</p>
+      )}
 
       {/* Display search results */}
       <div>
