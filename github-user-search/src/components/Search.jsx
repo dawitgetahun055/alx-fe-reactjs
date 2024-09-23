@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { searchUsers } from "../services/githubAPI"; // Ensure this path is correct
+import { searchUsers } from "../services/githubService"; // Ensure this path is correct
 
 const Search = () => {
   const [searchParams, setSearchParams] = useState({
