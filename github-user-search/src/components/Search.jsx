@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { searchUsers } from "./services/githubService";
+import { searchUsers } from "../services/githubService";
 
-const SearchComponent = () => {
+const Search = () => {
   const [searchParams, setSearchParams] = useState({
     username: "",
     location: "",
@@ -9,7 +9,10 @@ const SearchComponent = () => {
   });
   const [results, setResults] = useState([]);
 
-  const handleSearch = async () => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission (page reload)
+
     try {
       const users = await searchUsers(searchParams);
       setResults(users);
@@ -20,34 +23,36 @@ const SearchComponent = () => {
 
   return (
     <div>
-      {/* Form to input search criteria */}
-      <input
-        type="text"
-        placeholder="Username"
-        value={searchParams.username}
-        onChange={(e) =>
-          setSearchParams({ ...searchParams, username: e.target.value })
-        }
-      />
-      <input
-        type="text"
-        placeholder="Location"
-        value={searchParams.location}
-        onChange={(e) =>
-          setSearchParams({ ...searchParams, location: e.target.value })
-        }
-      />
-      <input
-        type="number"
-        placeholder="Minimum Repos"
-        value={searchParams.minRepos}
-        onChange={(e) =>
-          setSearchParams({ ...searchParams, minRepos: e.target.value })
-        }
-      />
-      <button onClick={handleSearch}>Search</button>
+      {/* Search form */}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={searchParams.username}
+          onChange={(e) =>
+            setSearchParams({ ...searchParams, username: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Location"
+          value={searchParams.location}
+          onChange={(e) =>
+            setSearchParams({ ...searchParams, location: e.target.value })
+          }
+        />
+        <input
+          type="number"
+          placeholder="Minimum Repos"
+          value={searchParams.minRepos}
+          onChange={(e) =>
+            setSearchParams({ ...searchParams, minRepos: e.target.value })
+          }
+        />
+        <button type="submit">Search</button> {/* Submit button */}
+      </form>
 
-      {/* Display results */}
+      {/* Display search results */}
       <div>
         {results.map((user) => (
           <div key={user.id}>
@@ -64,4 +69,4 @@ const SearchComponent = () => {
   );
 };
 
-export default SearchComponent;
+export default Search;
