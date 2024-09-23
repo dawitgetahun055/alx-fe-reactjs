@@ -32,6 +32,7 @@ const Search = () => {
           onChange={(e) =>
             setSearchParams({ ...searchParams, username: e.target.value })
           }
+          required
         />
         <input
           type="text"
