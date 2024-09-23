@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { searchUsers } from "../services/githubAPI"; // Ensure this path is correct
 
 const Search = () => {
