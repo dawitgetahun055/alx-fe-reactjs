@@ -1,73 +1,76 @@
 import { useState } from "react";
-import { searchUsers } from "../services/githubService";
 
-const Search = () => {
-  const [searchParams, setSearchParams] = useState({
-    username: "",
-    location: "",
-    minRepos: "",
-  });
-  const [results, setResults] = useState([]);
+const SearchBar = ({ handleSearch }) => {
+  const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission (page reload)
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setUser(null); // Reset user state on new search
 
     try {
-      const users = await searchUsers(searchParams);
-      setResults(users);
-    } catch (error) {
-      console.error("Error during search:", error);
+      const response = await handleSearch(inputValue);
+      if (!response) {
+        setError("Looks like we cant find the user");
+      } else {
+        setUser(response);
+      }
+    } catch (err) {
+      setError("An error occurred while fetching the user");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
-      {/* Search form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <input
           type="text"
-          placeholder="Username"
-          value={searchParams.username}
-          onChange={(e) =>
-            setSearchParams({ ...searchParams, username: e.target.value })
-          }
-          required
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Search GitHub users..."
         />
-        <input
-          type="text"
-          placeholder="Location"
-          value={searchParams.location}
-          onChange={(e) =>
-            setSearchParams({ ...searchParams, location: e.target.value })
-          }
-        />
-        <input
-          type="number"
-          placeholder="Minimum Repos"
-          value={searchParams.minRepos}
-          onChange={(e) =>
-            setSearchParams({ ...searchParams, minRepos: e.target.value })
-          }
-        />
-        <button type="submit">Search</button> {/* Submit button */}
+        <button type="submit">Search</button>
       </form>
 
-      {/* Display search results */}
-      <div>
-        {results.map((user) => (
-          <div key={user.id}>
-            <h3>{user.login}</h3>
-            <p>{user.location || "Location not available"}</p>
-            <p>Repositories: {user.public_repos}</p>
-            <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-              View Profile
-            </a>
-          </div>
-        ))}
-      </div>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {user && (
+        <div>
+          <img src={user.avatar_url} alt={user.login} />
+          <p>{user.login}</p>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Search;
+// Example of a fetchUserData function
+const fetchUserData = async (username) => {
+  const response = await fetch(`https://api.github.com/users/${username}`);
+  if (!response.ok) {
+    return null; // Return null if user not found
+  }
+  return response.json(); // Return the user data
+};
+
+// In your main component or wherever you use SearchBar
+const App = () => {
+  const handleSearch = async (username) => {
+    return await fetchUserData(username);
+  };
+
+  return (
+    <div>
+      <h1>GitHub User Search</h1>
+      <SearchBar handleSearch={handleSearch} />
+    </div>
+  );
+};
+
+export default App;
