@@ -20,8 +20,10 @@ const Search = () => {
     try {
       const users = await searchUsers(searchParams);
       setResults(users);
+
+      // Check if no users were found
       if (users.length === 0) {
-        setError("Looks like we can't find the user"); // Set error message if no users found
+        setError("Looks like we can't find the user."); // Set error message if no users found
       }
     } catch (error) {
       console.error("Error during search:", error);
@@ -69,7 +71,7 @@ const Search = () => {
       {/* Display error message */}
       {error && <p>{error}</p>}
 
-      {/* Check if results array is empty */}
+      {/* Check if results array is empty and not loading or showing error */}
       {results.length === 0 && !loading && !error && (
         <p>Looks like we can't find the user.</p>
       )}
@@ -82,8 +84,7 @@ const Search = () => {
               src={user.avatar_url}
               alt={`${user.login}'s avatar`}
               className="w-16 h-16"
-            />{" "}
-            {/* User avatar */}
+            />
             <h3>{user.login}</h3>
             <p>{user.location || "Location not available"}</p>
             <p>Repositories: {user.public_repos}</p>
